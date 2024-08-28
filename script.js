@@ -17,12 +17,8 @@ function startGame() {
 }
 
 function startNewLevel() {
-    const gameStart = document.getElementById('game-start');
-    const gameSection = document.getElementById('game-section');
-    
-    gameStart.style.display = 'none';
-    gameSection.style.display = 'block';
-    
+    document.getElementById('game-start').style.display = 'none';
+    document.getElementById('game-section').style.display = 'block';
     generateQuestion();
 }
 
@@ -39,16 +35,14 @@ function generateQuestion() {
 
     switch (fromSystem) {
         case 'decimal':
-            number = Math.floor(Math.random() * Math.pow(10, level)); // Generate random decimal number
+            number = Math.floor(Math.random() * Math.pow(10, level)); 
             break;
         case 'binary':
-            number = Math.floor(Math.random() * Math.pow(2, level)).toString(2); // Generate random binary number
+            number = Math.floor(Math.random() * Math.pow(2, level)).toString(2);
             break;
         case 'quaternary':
-            number = Math.floor(Math.random() * Math.pow(4, level)).toString(4); // Generate random quaternary number
+            number = Math.floor(Math.random() * Math.pow(4, level)).toString(4);
             break;
-        default:
-            number = 0;
     }
 
     const questionText = `Convert ${number} from ${fromSystem} to ${toSystem}:`;
@@ -61,7 +55,9 @@ function generateQuestion() {
 function checkAnswer() {
     const answer = document.getElementById('answer').value.trim();
     const questionText = document.getElementById('question').innerText;
-    const [number, fromSystem, , , toSystem] = questionText.split(' ');
+    const number = questionText.split(' ')[1];
+    const fromSystem = questionText.split(' ')[3];
+    const toSystem = questionText.split(' ')[5];
     
     const decimalNumber = convertToDecimal(number, fromSystem);
     const correctAnswer = convertFromDecimal(decimalNumber, toSystem);
@@ -87,8 +83,6 @@ function convertToDecimal(number, system) {
             return parseInt(number, 2);
         case 'quaternary':
             return parseInt(number, 4);
-        default:
-            return 0;
     }
 }
 
@@ -100,8 +94,6 @@ function convertFromDecimal(decimalNumber, system) {
             return decimalNumber.toString(2);
         case 'quaternary':
             return decimalNumber.toString(4);
-        default:
-            return '';
     }
 }
 
@@ -125,7 +117,6 @@ function showHighScores() {
     alert(highScoreText);
 }
 
-// On page load
 window.onload = function() {
     const cookies = document.cookie.split('; ');
     const playerCookie = cookies.find(cookie => cookie.startsWith('playerName='));
