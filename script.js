@@ -35,8 +35,22 @@ function generateQuestion() {
         toSystem = systems[Math.floor(Math.random() * systems.length)];
     } while (fromSystem === toSystem);
     
-    const maxNumber = Math.pow(10, level);
-    const number = Math.floor(Math.random() * maxNumber);
+    let number;
+
+    switch (fromSystem) {
+        case 'decimal':
+            number = Math.floor(Math.random() * Math.pow(10, level)); // Generate random decimal number
+            break;
+        case 'binary':
+            number = Math.floor(Math.random() * Math.pow(2, level)).toString(2); // Generate random binary number
+            break;
+        case 'quaternary':
+            number = Math.floor(Math.random() * Math.pow(4, level)).toString(4); // Generate random quaternary number
+            break;
+        default:
+            number = 0;
+    }
+
     const questionText = `Convert ${number} from ${fromSystem} to ${toSystem}:`;
     
     document.getElementById('question').innerText = questionText;
